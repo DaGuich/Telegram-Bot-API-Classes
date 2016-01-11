@@ -370,7 +370,7 @@ class Video
 
         if( !empty( $params["thumb"] ) )
         {
-            $this->thumb = $param["thumb"];
+            $this->thumb = new PhotoSize( $param["thumb"] );
         }
 
         if( !empty( $params["mime_type"] ) )
@@ -384,5 +384,50 @@ class Video
         }
     }
 }
+
+class Voice
+{
+    // Unique identifier for this file
+    public $file_id;
+    // Duration of the audio in seconds as defined by sender
+    public $duration;
+    // OPTIONAL MIME type of the file as defined by sender
+    public $mime_type;
+    // OPTIONAL File size
+    public $file_size;
+
+    public function __construct( $params )
+    {
+        if( empty( $params["file_id"] ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $this->file_id = $params["file_id"];
+        }
+
+        if( empty( $params["duration"] ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $this->duration = $params["duration"];
+        }
+
+        if( !empty( $params["mime_type"] ) )
+        {
+            $this->mime_type = $params["mime_type"];
+        }
+
+        if( !empty( $params["file_size"] ) )
+        {
+            $this->file_size = $params["file_size"];
+        }
+    }
+}
+
+
 
 ?>
