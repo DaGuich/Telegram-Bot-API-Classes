@@ -313,4 +313,76 @@ class Sticker
     }
 }
 
+class Video
+{
+    // Unique identifier for this file
+    public $file_id;
+    // Video width as defined by sender
+    public $width;
+    // Video height as defined by sender
+    public $height;
+    // Duration of the vieo in seconds as defined by sender
+    public $duration;
+    // OPTIONAL Video thumbnail
+    public $thumb;
+    // OPTIONAL Mime type of a file as defined by sender
+    public $mime_type;
+    // OPTIONAL file size
+    public $file_size;
+
+    public function __construct( $params )
+    {
+        if( empty( $params["file_id"] ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $this->file_id = $params["file_id"];
+        }
+
+        if( empty( $params["width"] ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $this->width = $params["width"];
+        }
+
+        if( empty( $params["height"] ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $this->height = $param["height"];
+        }
+
+        if( empty( $params["duration"] ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $this->duration = $param["duration"];
+        }
+
+        if( !empty( $params["thumb"] ) )
+        {
+            $this->thumb = $param["thumb"];
+        }
+
+        if( !empty( $params["mime_type"] ) )
+        {
+            $this->mime_type = $param["mime_type"];
+        }
+
+        if( !empty( $params["file_size"] ) )
+        {
+            $this->file_size = $param["file_size"];
+        }
+    }
+}
+
 ?>
