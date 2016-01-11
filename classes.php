@@ -259,4 +259,58 @@ class Document
     }
 }
 
+class Sticker
+{
+    // Unique identifier for this file
+    public $file_id;
+    // Sticker width
+    public $width;
+    // Sticker height
+    public $height;
+    // OPTIONAL Sticker thumbnail in .webp or .jpg format
+    public $thumb;
+    // OPTIONAL File size
+    public $file_size;
+
+    public function __construct( $params )
+    {
+        if( empty( $params["file_id"] ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $this->file_id = $params["file_id"];
+        }
+
+        if( empty( $params["width"] ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $this->width = $params["width"];
+        }
+
+        if( empty( $params["height"] ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $this->height = $params["height"];
+        }
+
+        if( !empty( $params["thumb"] ) )
+        {
+            $this->thumb = new PhotoSize( $params["thumb"] );
+        }
+
+        if( !empty( $params["file_size"] ) )
+        {
+            $this->file_size = $params["file_size"];
+        }
+    }
+}
+
 ?>
