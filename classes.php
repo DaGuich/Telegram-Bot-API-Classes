@@ -155,4 +155,108 @@ class PhotoSize
         }
     }
 }
+
+class Audio
+{
+    // Unique identifier for this file
+    public $file_id;
+    // Duration of the audio in seconds as defined by sender
+    public $duration;
+    // OPTIONAL Performer of the audio as defined by sender or by audio tags
+    public $performer;
+    // OPTIONAL Title of the audio as defiend by sender or by audio tags
+    public $title;
+    // OPTIONAL MIME type of the file as defined by sender
+    public $mime_type;
+    // OPTIONAL File size
+    public $file_size;
+
+    public function __construct( $params )
+    {
+        if( empty( $params["file_id"] ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $this->file_id = $params["file_id"];
+        }
+
+        if( empty( $params["duration"] ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $this->duration = $params["duration"];
+        }
+
+        if( !empty( $params["performer"] ) )
+        {
+            $this->performer = $params["performer"];
+        }
+
+        if( !empty( $params["title"] ) )
+        {
+            $this->title = $params["title"];
+        }
+
+        if( !empty( $params["mime_type"] ) )
+        {
+            $this->mime_type = $params["mime_type"];
+        }
+
+        if( !empty( $params["file_size"] ) )
+        {
+            $this->file_size = $params["file_size"];
+        }
+    }
+}
+
+class Document
+{
+    // Unique file identifier
+    public $file_id;
+    // OPTIONAL Document thumbnail as defined by sender
+    public $thumb;
+    // OPTIONAL Original filename as defined by sender
+    public $file_name;
+    // OPTIONAL MIME type of the file as defined by sender
+    public $mime_type;
+    // OPTIONAL File size
+    public $file_size;
+
+    public function __construct( $params )
+    {
+        if( empty( $params["file_id"] ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $this->file_id = $params["file_id"];
+        }
+
+        if( !empty( $params["thumb"] ) )
+        {
+            $this->thumb = new PhotoSize( $params["thumb"] );
+        }
+
+        if( !empty( $params["file_name"] ) )
+        {
+            $this->file_name = $params["file_name"];
+        }
+
+        if( !empty( $params["mime_type"] ) )
+        {
+            $this->mime_type = $params["mime_type"];
+        }
+
+        if( !empty( $params["file_size"] ) )
+        {
+            $this->file_size = $params["file_size"];
+        }
+    }
+}
+
 ?>
