@@ -471,4 +471,33 @@ class Contact
     }
 }
 
+class Location
+{
+    // Longitude as defined by sender
+    public $longitude;
+    // Latitude as defined by sender
+    public $latitude;
+
+    public function __construct( $params )
+    {
+        if( empty( $params["longitude"] ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $this->longitude = $params["longitude"];
+        }
+
+        if( empty( $params["latitude"] ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $this->latitude = $params["latitude"];
+        }
+    }
+}
+
 ?>
