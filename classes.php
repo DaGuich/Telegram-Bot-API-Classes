@@ -428,6 +428,47 @@ class Voice
     }
 }
 
+class Contact
+{
+    // Contacts phone number
+    public $phone_number;
+    // Contacts first name
+    public $first_name;
+    // OPTIONAL Contacts last name
+    public $last_name;
+    // OPTIONAL Contacts user identifier in Telegram
+    public $user_id;
 
+    public function __construct( $params )
+    {
+        if( empty( $params["phone_number"] ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $this->phone_number = $params["phone_number"];
+        }
+
+        if( empty( $params["first_name"] ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $this->first_name = $params["first_name"];
+        }
+
+        if( !empty( $params["last_name"] ) )
+        {
+            $this->last_name = $params["last_name"];
+        }
+
+        if( !empty( $params["user_id"] ) )
+        {
+            $this->user_id = $params["user_id"];
+        }
+    }
+}
 
 ?>
