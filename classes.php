@@ -500,4 +500,42 @@ class Location
     }
 }
 
+class UserProfilePhotos
+{
+    // Total number of profile pictures the target user has
+    public $total_count;
+    // Reuqest profile pictures 
+    public $photos;
+
+    public function __construct( $params )
+    {
+        if( empty( $params["total_count"] ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $this->total_count = $params["total_count"];
+        }
+
+        if( empty( $params["photos"] ) )
+        {
+            foreach( $params["photos"] AS $i => $p )
+            {
+                foreach( $p AS $ii => $pp )
+                {
+                    if( empty( $pp ) )
+                    {
+                        throw new Exception( NON_OPT_PARAM );
+                    }
+                    else
+                    {
+                        $this->photos[$i][$ii] = new PhotoSize( $pp );
+                    }
+                }
+            }
+        }
+    }
+}
+
 ?>
