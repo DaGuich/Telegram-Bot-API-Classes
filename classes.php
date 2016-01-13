@@ -221,22 +221,295 @@ class Message
      * @var PhotoSize[]
      */
     public $photo;
+
+    /**
+     * Message is a sticker information about the sticker
+     * OPTIONAL
+     *
+     * @var Sticker
+     */
     public $sticker;
+
+    /**
+     * Message is a video, information about the video
+     * OPTIONAL
+     *
+     * @var Video
+     */
     public $video;
+
+    /**
+     * Message is a voice message, information about the file
+     * OPTIONAL
+     *
+     * @var Voice
+     */
     public $voice;
+
+    /**
+     * Caption of the photo or video, 0-200 characters
+     * OPTIONAL
+     *
+     * @var String
+     */
     public $caption;
+
+    /**
+     * Message is a shared contact, information about the
+     * contact
+     * OPTIONAL
+     *
+     * @var Contact
+     */
     public $contact;
+
+    /**
+     * Message is a shared location, information about the location
+     * OPTIONAL
+     *
+     * @var Location
+     */
     public $location;
+
+    /**
+     * A new member was added to the group, information about them (this
+     * member may be the bot itself
+     * OPTIONAL
+     *
+     * @var User
+     */
     public $new_chat_participant;
+
+    /**
+     * A member was removed from the group, information about them (this 
+     * member may be the bot itself
+     * OPTIONAL
+     *
+     * @var User
+     */
     public $left_chat_participant;
+
+    /**
+     * A chat title was changed to this value
+     * OPTIONAL
+     *
+     * @var String
+     */
     public $new_chat_title;
+
+    /**
+     * A chat photo was change to this value
+     * OPTIONAL
+     *
+     * @var PhotoSize[]
+     */
     public $new_chat_photo;
+
+    /**
+     * Service message: the chat photo was deleted
+     * OPTIONAL
+     *
+     * @var bool true
+     */
     public $delete_chat_photo;
+
+    /**
+     * Servce message: the group has been created
+     * OPTIONAL
+     *
+     * @var bool true
+     */
     public $group_chat_created;
+
+    /**
+     * Service message: the supergroup has been created
+     * OPTIONAL
+     *
+     * @var bool true
+     */
     public $supergroup_chat_created;
+
+    /**
+     * Service message: the channel has been created
+     * OPTIONAL
+     *
+     * @var bool true
+     */
     public $channel_chat_created;
+
+    /**
+     * The group has been migrated to a supergroup with the specified
+     * identifier, not exceeding 1e14 by absolute value
+     * OPTIONAL
+     *
+     * @var int
+     */
     public $migrate_to_chat_id;
+
+    /**
+     * The supergroup has been migrated from a group with the specified
+     * identifier, not exceeding 1e13 by absolute value
+     * OPTIONAL
+     *
+     * @var int
+     */
     public $migrate_from_chat_id;
+
+    public function __construct( $params )
+    {
+        if( empty( $params["message_id"] ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $this->message_id = $params["message_id"];
+        }
+
+        if( !empty( $params["from"] ) )
+        {
+            $this->from = new User( $params["from"] );
+        }
+
+        if( empty( $params["date"] ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $this->date = $params["date"];
+        }
+
+        if( empty( $params["chat"] ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $this->chat = new Chat( $params["chat"] );
+        }
+
+        if( !empty( $params["forward_from"] ) )
+        {
+            $this->forward_from = new User( $params["forward_from"] );
+        }
+
+        if( !empty( $params["forward_date"] ) )
+        {
+            $this->forward_date = $params["forward_date"];
+        }
+
+        if( !empty( $params["reply_to_message"] ) )
+        {
+            $this->reply_to_message = new Message( $params["reply_to_message"] );
+        }
+
+        if( !empty( $params["text"] ) )
+        {
+            $this->text = $params["text"];
+        }
+
+        if( !empty( $params["audio"] ) )
+        {
+            $this->audio = new Audio( $params["audio"] );
+        }
+
+        if( !empty( $params["document"] ) )
+        {
+            $this->document = new Document( $params["document"] );
+        }
+
+        if( !empty( $params["photo"] ) )
+        {
+            foreach( $params["photo"] as $pid => $photo )
+            {
+                $this->photo[$pid] = new PhotoSize( $photo );
+            }
+        }
+
+        if( !empty( $params["sticker"] ) )
+        {
+            $this->sticker = new Sticker( $params["sticker"] );
+        }
+
+        if( !empty( $params["video"] ) )
+        {
+            $this->video = new Video( $params["video"] );
+        }
+
+        if( !empty( $params["voice"] ) )
+        {
+            $this->voice = new Voice( $params["voice"] );
+        }
+
+        if( !empty( $params["caption"] ) )
+        {
+            $this->caption = $params["caption"];
+        }
+
+        if( !empty( $params["contact"] ) )
+        {
+            $this->contact = new Contact( $params["contact"] );
+        }
+
+        if( !empty( $params["location"] ) )
+        {
+            $this->location = new Location( $params["location"] );
+        }
+
+        if( !empty( $params["new_chat_participant"] ) )
+        {
+            $this->new_chat_participant = new User( $params["new_chat_participant"] );
+        }
+
+        if( !empty( $params["left_chat_participant"] ) )
+        {
+            $this->left_chat_participant = new User( $params["left_chat_participant"] );
+        }
+
+        if( !empty( $params["new_chat_title"] ) )
+        {
+            $this->new_chat_title = $params["new_chat_title"];
+        }
+
+        if( !empty( $params["new_chat_photo"] ) )
+        {
+            foreach( $params["new_chat_photo"] as $pid => $photo )
+            {
+                $this->new_chat_photo[$pid] = new PhotoSize( $photo );
+            }
+        }
+
+        if( !empty( $params["delete_chat_photo"] ) )
+        {
+            $this->delete_chat_photo = $params["delete_chat_photo"];
+        }
+
+        if( !empty( $params["group_chat_created"] ) )
+        {
+            $this->group_chat_created = $params["group_chat_created"];
+        }
+
+        if( !empty( $params["supergroup_chat_created"] ) )
+        {
+            $this->supergroup_chat_created = $params["supergroup_chat_created"];
+        }
+
+        if( !empty( $params["channel_chat_created"] ) )
+        {
+            $this->channel_chat_created = $params["channel_chat_created"];
+        }
+
+        if( !empty( $params["migrate_to_chat_id"] ) )
+        {
+            $this->migrate_to_chat_id = $params["migrate_to_chat_id"];
+        }
+
+        if( !empty( $params["migrate_from_chat_id"] ) )
+        {
+            $this->migrate_from_chat_id = $params["migrate_from_chat_id"];
+        }
+    }
 }
 
 class PhotoSize
@@ -773,7 +1046,5 @@ class ReplyKeyboardHide
         }
     }
 }
-
-
 
 ?>
