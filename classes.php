@@ -1,19 +1,47 @@
 <?php
-
 // Define Exception-Messages
 define( 'NON_OPT_PARAM' , 'Non-optional parameter empty');
 
 class User
 {
-    // Unique identifier for this user or bot
+
+    /**
+     * Unique identifier for this user or bot
+     *
+     * @var int
+     */
     public $id;
-    // Users or bots first name
+
+    /**
+     * User's or bot's first name
+     *
+     * @var String
+     */
     public $first_name;
-    // OPTIONAL Users or bots last name
+
+    /**
+     * User's or bot's last name
+     *
+     * @var String
+     */
     public $last_name;
-    // OPTIONAL Users or bots username
+
+    /**
+     * User's or bot's username
+     *
+     * @var String
+     */
     public $username;
-    
+
+    /**
+     * Constructor
+     *
+     * @param array decoded JSON-Array from the API
+     * 
+     * @return void constructor
+     *
+     * @throws Exception When non optional parameters are empty
+     */
     public function __construct( $params )
     {
         if( empty( $params["id"] ) )
@@ -106,7 +134,109 @@ class Chat
 
 class Message
 {
+    /**
+     * Unique message identifier
+     *
+     * @var int 
+     */
+    public $message_id;
 
+    /**
+     * Sender, can be empty for messages sent to channels
+     * OPTIONAL
+     *
+     * @var User
+     */
+    public $from;
+
+    /**
+     * Date the message was sent in Unix time
+     *
+     * @var int
+     */
+    public $date;
+
+    /**
+     * Conversation the message belongs to
+     *
+     * @var Chat
+     */
+    public $chat;
+
+    /**
+     * For forwarded messages, sender of the original message
+     * OPTIONAL
+     *
+     * @var User
+     */
+    public $forward_from;
+
+    /**
+     * For forwarded messages, date the original message was sent
+     * int Unix time
+     * OPTIONAL
+     *
+     * @var int
+     */
+    public $forware_date;
+
+    /**
+     * For replies, the original message. Note that the Message object
+     * in tis field will not contain further reply_to_message fields
+     * even if it itself is a reply
+     * OPTIONAL
+     *
+     * @var Message
+     */
+    public $reply_to_message;
+
+    /**
+     * For text messages, the actual UFT-8 text of the message
+     * OPTIONAL
+     *
+     * @var String
+     */
+    public $text;
+
+    /**
+     * Message is an audio file, information about the file
+     * OPTIONAL 
+     *
+     * @var Audio
+     */ 
+    public $audio; 
+
+    /**
+     * Message is an general file, information about the file
+     * OPTIONAL
+     *
+     * @var Document
+     */
+    public $document;
+
+    /**
+     * Message is a photo, available sizes of the photo
+     * OPTIONAL
+     *
+     * @var PhotoSize[]
+     */
+    public $photo;
+    public $sticker;
+    public $video;
+    public $voice;
+    public $caption;
+    public $contact;
+    public $location;
+    public $new_chat_participant;
+    public $left_chat_participant;
+    public $new_chat_title;
+    public $new_chat_photo;
+    public $delete_chat_photo;
+    public $group_chat_created;
+    public $supergroup_chat_created;
+    public $channel_chat_created;
+    public $migrate_to_chat_id;
+    public $migrate_from_chat_id;
 }
 
 class PhotoSize
@@ -537,5 +667,113 @@ class UserProfilePhotos
         }
     }
 }
+
+class File
+{
+    // Unique identifier for this file
+    public $file_id;
+    // OPTIONAL File size, if known
+    public $file_size;
+    // OPTIONAL File path
+    public $file_path;
+
+    public function __construct( $params )
+    {
+        if( empty( $params["file_id"] ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $this->file_id = $params["file_id"];
+        }
+
+        if( !empty( $params["file_size"] ) )
+        {
+            $this->file_size = $params["file_size"];
+        }
+
+        if( !empty( $params["file_path"] ) )
+        {
+            $this->file_path = $params["file_path"];
+        }
+    }
+}
+
+class ReplyKeyboardMarkup
+{
+    // Array of button rows, each represented by an Array of Strings
+    public $keyboard;
+    // OPTIONAL Requests clients to resize the keyboard vertically
+    // for optimal fit (e.g., make the keyboard smaller if there
+    // are just two rows of buttons). Defaults to false, in which
+    // case the custom keyboard is always of the same height as the
+    // app's standard keyboard
+    public $resize_keyboard;
+    // OPTIONAL Requests clients to hide the keyboard as soon as
+    // its been used. Default to false
+    public $one_time_keyboard;
+    // OPTIONAL Requests clients to hide the keyboard as soon as
+    // it's been used. Defaults to false
+    public $selective;
+    // OPTIONAL Use this parameter if you want to show the keyboard
+    // to specific users only. Targets: 1) uses that are @ mentioned
+    // in the text of the Message object; 2) if the bot's message
+    // is a reply (has reply_to_message_id), sender of the
+    // original message.
+
+    public function __construct( $params )
+    {
+        if( empty( $params["keyboard"] ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $this->keyboard = $params["keyboard"];
+        }
+
+        if( !empty( $params["resize_keyboard"] ) )
+        {
+            $this->resize_keyboard = $params["resize_keyboard"];
+        }
+
+        if( !empty( $params["one_time_keyboard"] ) )
+        {
+            $this->one_time_keyboard = $params["one_time_keyboard"];
+        }
+
+        if( !empty( $params["selective"] ) )
+        {
+            $this->selective = $params["selective"];
+        }
+    }
+}
+
+class ReplyKeyboardHide
+{
+    // Requests clients to hide the custom keyboard
+    public $hide_keyboard;
+    // OPTIONAL Use this parameter if you want to hide keyboard
+    // for specific users only. Targets: 1) users that are
+    // @mentioned in the text of the Message object; 2) if the
+    // bot's message is a reply (has reply_to_message_id), sender
+    // of the original message
+    public $selective;
+
+    public function __construct( $params )
+    {
+        if( empty( $params["hide_keyboard"] ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $this->hide_keyboard = $params["hide_keyboard"];
+        }
+    }
+}
+
+
 
 ?>
