@@ -133,6 +133,57 @@ class Telegram
         return new Message( $this->call( 'sendMessage' , $data ) );
     }
 
+    /**
+     * Use this method to forward messages of any kind. On success, the sent
+     * Messge is returned
+     *
+     * @return Message The sent message
+     * @param mixed chat_id Unique identifier for the target chat or username of the
+     * target channel (in the format @channelusername)
+     * @param mixed from_chat_id Unique identifier for the chat where the
+     * original message was sent (or channel username in the format
+     * @channelusername)
+     * @param int message_id Unique message identifier
+     */
+    public function forwardMessage( 
+        $chat_id,
+        $from_chat_id,
+        $message_id
+    )
+    {
+        $data = array();
+
+        if( empty( $chat_id ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $data["chat_id"] = $chat_id;
+        }
+
+        if( empty( $from_chat_id ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $data["from_chat_id"] = $from_chat_id;
+        }
+
+        if( empty( $message_id ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $data["message_id"] = $message_id;
+        }
+
+        return new Message( $this->call( 'forwardMessage' , $data ) );
+    }
+        
+
     public function call( $method , $data = NULL )
     {
         $options = array(
