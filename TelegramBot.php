@@ -64,6 +64,75 @@ class Telegram
         return new User( $this->call( 'getMe' ) );
     }
 
+    /**
+     * Use this method to send text messages.
+     * 
+     * @param mixed chat_id Unique identifier for the target chat or username
+     * of the target chat
+     * @param string text Text of the message to be sent
+     * @param string parse_mode Send Markdown if you want Telegram apps to show
+     * bold, italic and inline URLs in your bot's message
+     * @param bool disable_web_page_preview Disables link previews for linsk
+     * ins this message
+     * @param int reply_to_message_id If the message is a reply, ID of he
+     * original message
+     * @param mixed Additional interace options. A JSON-serialized object for
+     * a custom reply keyboard, instructions to hide keyboard or to force a
+     * reply from the user
+     *
+     * @return Message this message
+     */
+    public function sendMessage(
+        $chat_id ,
+        $text ,
+        $parse_mode = NULL,
+        $disable_web_page_preview = NULL ,
+        $reply_to_message_id = NULL ,
+        $reply_markup = NULL
+    )
+    {
+        $data = array();
+        if( empty( $chat_id ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $data["chat_id"] = $chat_id;
+        }
+
+        if( empty( $text ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $data["text"] = $text;
+        }
+
+        if( !empty( $parse_mode ) )
+        {
+            $data["parse_mode"] = $parse_mode;
+        }
+
+        if( !empty( $disable_web_page_preview ) )
+        {
+            $data["disable_web_page_preview"] = $disable_web_page_preview;
+        }
+
+        if( !empty( $reply_to_message ) )
+        {
+            $data["reply_to_message"] = $reply_to_message;
+        }
+
+        if( !empty( $reply_markup ) )
+        {
+            $data["reply_markup"] = $reply_markup;
+        }
+        
+        return new Message( $this->call( 'sendMessage' , $data ) );
+    }
+
     public function call( $method , $data = NULL )
     {
         $options = array(
