@@ -2,6 +2,59 @@
 // Define Exception-Messages
 define( 'NON_OPT_PARAM' , 'Non-optional parameter empty');
 
+
+class Update
+{
+    /**
+     * The update's unique identifier. Update identifiers start from a certain
+     * positive number and increase sequentially. This ID becomes especcially
+     * handy if you're using Webhooks, since it allows you to ignore repeated
+     * updates or to restore the correct update sequence, should tehy get out
+     * of order
+     *
+     * @var int
+     */
+    public $update_id;
+
+    /**
+     * New incoming message of any kind - text, photo, sticker, etc.
+     * OPTIONAL
+     *
+     * @var Message
+     */
+    public $message;
+
+    /**
+     * New incoming inline query
+     * OPTIONAL
+     *
+     * Not supported yet
+     *
+     * @var InlineQuery
+     */
+    public $inline_query;
+
+    public function __construct( $params )
+    {
+        if( empty( $params["update_id"] ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $this->update_id = $params["update_id"];
+        }
+
+        if( !empty( $params["message"] ) )
+        {
+            $this->message = new Message( $params["message"] );
+        }
+
+        // TODO: make support for InlineQuerys
+        // (other query classes)
+    }
+}
+
 class User
 {
 
