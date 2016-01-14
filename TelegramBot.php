@@ -240,6 +240,85 @@ class Telegram
         return new Message( $this->call( 'sendPhoto' , $data );
     }
 
+    /**
+     * Use this method to send audio files, if you want Telegram clients to
+     * display them in the music player. Your audio must be in the .mpe ormat.
+     * On success, the sent Message is returned. Bots can currently send audio
+     * files up to 50MB in size, this limit may be changed in the future.
+     *
+     * For backward compatibility, when the fields title and performer are both
+     * empty and the mime-type of the file to be sent is not audio/mpeg, the
+     * file will be sent as a playable voice message. For this to work, the
+     * audio must be in an .ogg file encoded with OPUS. This behavior will be
+     * phased out in the future. For sending voice messages, use the sendVoice
+     * method instead.
+     *
+     * @param mixed chat_id
+     * @param mixed audio
+     * @param int duration Duration of the audio in seconds
+     * @param String performer
+     * @param String title
+     * @param int reply_to_message_id
+     * @param mixed reply_markup
+     *
+     * @return Message the sent message
+     */
+    public function sendAudio(
+        $chat_id ,
+        $audio ,
+        $duration = NULL ,
+        $performer = NULL ,
+        $title = NULL ,
+        $reply_to_message = NULL ,
+        $reply_markup = NULL
+    )
+    {
+        $data = array();
+
+        if( empty( $chat_id ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $data["chat_id"] = $chat_id;
+        }
+
+        if( empty( $audio ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $data["audio"] = $audio;
+        }
+
+        if( !empty( $duration ) )
+        {
+            $data["duration"] = $duration;
+        }
+        
+        if( !empty( $performer ) )
+        {
+            $data["performer"] = $performer;
+        }
+
+        if( !empty( $title ) )
+        {
+            $data["title"] = $title;
+        }
+
+        if( !empty( $reply_to_message_id ) )
+        {
+            $data["reply_to_message_id"] = $reply_to_message_id;
+        }
+
+        if( !empty( $reply_markup ) )
+        {
+            $data["reply_markup"] = $reply_markup;
+        }
+    }
+
     public function call( $method , $data = NULL )
     {
         $options = array(
