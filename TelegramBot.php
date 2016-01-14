@@ -182,7 +182,63 @@ class Telegram
 
         return new Message( $this->call( 'forwardMessage' , $data ) );
     }
-        
+
+    /**
+     * Use this method to send photos
+     *
+     * @param mixed chat_id 
+     * @param mixed photo InputFile or String
+     * @param String caption
+     * @param int reply_to_message_id
+     * @param mixed reply_markup
+     *
+     * @return Message the sent message
+     */
+    public function sendPhoto(
+        $chat_id ,
+        $photo ,
+        $caption = NULL ,
+        $reply_to_message_id = NULL ,
+        $reply_markup = NULL
+    )
+    {
+        $data = array();
+
+        if( empty( $chat_id ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $data["chat_id"] = $chat_id;
+        }
+
+        if( empty( $photo ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $data["photo"] = $photo;
+        }
+
+        if( !empty( $caption ) )
+        {
+            $data["caption"] = $caption;
+        }
+
+        if( !empty( $reply_to_message_id ) )
+        {
+            $data["reply_to_message_id"] = $reply_to_message_id;
+        }
+
+        if( !empty( $reply_markup ) )
+        {
+            $data["reply_markup"] = $reply_markup;
+        }
+
+        return new Message( $this->call( 'sendPhoto' , $data );
+    }
 
     public function call( $method , $data = NULL )
     {
@@ -230,6 +286,7 @@ class Telegram
         if( empty( $real_path ) )
         {
             throw new Exception( 'File not found' );
+            // TODO: reuse old file_id's?
         }
 
         if( !class_exists('CURLFile') )
