@@ -237,7 +237,7 @@ class Telegram
             $data["reply_markup"] = $reply_markup;
         }
 
-        return new Message( $this->call( 'sendPhoto' , $data );
+        return new Message( $this->call( 'sendPhoto' , $data ) );
     }
 
     /**
@@ -317,6 +317,8 @@ class Telegram
         {
             $data["reply_markup"] = $reply_markup;
         }
+
+        return new Message( $this->call( 'sendAudio' , $data ) );
     }
 
     public function call( $method , $data = NULL )
@@ -360,7 +362,7 @@ class Telegram
 
     protected function getCurlFile( $file_path )
     {
-        $real_path = realpath( $path );
+        $real_path = realpath( $file_path );
 
         if( empty( $real_path ) )
         {
