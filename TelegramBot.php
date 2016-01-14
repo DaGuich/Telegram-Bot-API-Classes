@@ -53,6 +53,12 @@ class Telegram
         $this->bot_information = $this->getMe();
     }
 
+    /**
+     * A simple method for testing your bot's auth token. Requires no
+     * parameters.
+     *
+     * @return User The bot itself
+     */
     public function getMe()
     {
         return new User( $this->call( 'getMe' ) );
