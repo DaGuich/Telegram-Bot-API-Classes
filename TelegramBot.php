@@ -90,7 +90,9 @@ class Telegram
         if( empty( $response ) OR $response["ok"] != true )
         {
             throw new Exception( $response['description'] , $response['error_code'] );
-
+        }
+        else
+        {
             return $response['result'];
         }
     }
