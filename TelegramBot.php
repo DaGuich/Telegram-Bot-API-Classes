@@ -321,6 +321,56 @@ class Telegram
         return new Message( $this->call( 'sendAudio' , $data ) );
     }
 
+    /**
+     * Use this method to send general files. On success, the sent Message is
+     * returned. Bots can currently send files of any type of up to 50MB in
+     * size, this limit may be changed in the future.
+     *
+     * @param mixed chat_id
+     * @param mixed document
+     * @param int reply_to_message_id
+     * @param mixed reply_markup 
+     */
+    public function sendDocument(
+        $chat_id ,
+        $document ,
+        $reply_to_message_id = NULL ,
+        $reply_markup = NULL
+    )
+    {
+        $data = array();
+
+        if( empty( $chat_id ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $data["chat_id"] = $chat_id;
+        }
+
+        if( empty( $document ) ) 
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $data["document"] = $document;
+        }
+
+        if( !empty( $reply_to_message_id ) )
+        {
+            $data["reply_to_message_id"] = $reply_to_message_id;
+        }
+
+        if( !empty( $reply_markup ) )
+        {
+            $data["reply_markup"] = $reply_markup;
+        }
+
+        return new Message( $this->call( 'sendDocument' , $data ) );
+    }
+
     public function call( $method , $data = NULL )
     {
         $options = array(
