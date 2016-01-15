@@ -721,6 +721,34 @@ class Telegram
         return $return;
     }
 
+    /**
+     * Use this method to specify a url and receive incoming updates via an
+     * outgoing webhook. Whenever there is an update for the bot, we will send
+     * an HTTPS POST request to the specified url, containing a JSON-serialized
+     * Update.
+     *
+     * @param String url
+     * @param InputFile certificate
+     */
+    public function setWebhook(
+        $url = NULL ,
+        $certificate = NULL
+    )
+    {
+        $data = array();
+        if( !empty( $url ) )
+        {
+            $data["url"] = $url;
+        }
+
+        if( !empty( $certificate ) )
+        {
+            $data["certificate"] = $certificate;
+        }
+
+        return $this->call( 'setWebhook' , $data );
+    }
+
     public function call( $method , $data = NULL )
     {
         $options = array(
