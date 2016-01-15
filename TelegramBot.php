@@ -486,6 +486,64 @@ class Telegram
         return new Message( $this->call( 'sendVideo' , $data ) );
     }
 
+    /**
+     * Use this method to send audio files, if you want Telegram clients to
+     * display the file as a playable voice message. For this to work your
+     * audio must be in an .ogg file encoded with OPUS
+     *
+     * @param mixed chat_id
+     * @param mixed voice
+     * @param int duration
+     * @param int reply_to_message_id
+     * @param mixed reply_markup
+     *
+     * @return Message The sent message
+     */
+    public function sendVoice(
+        $chat_id ,
+        $voice ,
+        $duration = NULL ,
+        $reply_to_message_id = NULL ,
+        $reply_markup = NULL
+    )
+    {
+        $data = array();
+        if( empty( $chat_id ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $data["chat_id"] = $chat_id;
+        }
+
+        if( empty( $voice ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $data["voice"] = $voice;
+        }
+
+        if( !empty( $duration ) )
+        {
+            $data["duration"] = $duration;
+        }
+
+        if( !empty( $reply_to_message_id ) )
+        {
+            $data["reply_to_message_id"] = $reply_to_message_id;
+        }
+
+        if( !empty( $reply_markup ) )
+        {
+            $data["reply_markup"] = $reply_markup;
+        }
+
+        return new Message( $this->call( 'sendVoice' , $data ) );
+    }
+
     public function call( $method , $data = NULL )
     {
         $options = array(
