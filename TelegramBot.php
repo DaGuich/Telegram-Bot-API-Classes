@@ -656,6 +656,29 @@ class Telegram
         return $this->call( 'sendChatAction' , $data );
     }
 
+    /**
+     * Use this method to get basic info about a file and prepare it for
+     * downloading. For the moment, bots can download files of up to 20MB in
+     * size. It is guaranteed that the link will be valid for at least 1 hoar.
+     * When the link expires, a new one can be requested by calling getFile
+     * again
+     *
+     * @param String file_id
+     *
+     * @return File
+     */
+    public function getFile( $file_id )
+    {
+        if( empty( $file_id ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            return new File( $this->call( 'getFile' , [ "file_id" => $file_id ] ) );
+        }
+    }
+
     public function call( $method , $data = NULL )
     {
         $options = array(
