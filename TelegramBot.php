@@ -420,6 +420,72 @@ class Telegram
         return new Message( $this->call( 'sendSticker' , $data );
     }
 
+    /**
+     * Use this method to send video files, Telegram clients support mp4 videos
+     * (other formats my be sent as Document).
+     * Bots can currenly send video files of up to 50 MB in size, this limit
+     * may be changed in the future.
+     *
+     * @param mixed chat_id
+     * @param mixed video
+     * @param int duration
+     * @param String caption
+     * @param int reply_to_message_id
+     * @param mixed reply_markup
+     *
+     * @return Message the sent message
+     */
+    public function sendVideo(
+        $chat_id ,
+        $video ,
+        $duration = NULL ,
+        $caption = NULL ,
+        $reply_to_message_id = NULL ,
+        $reply_markup = NULL
+    )
+    {
+        $data = array();
+        if( empty( $chat_id ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $data["chat_id"] = $chat_id;
+        }
+
+        if( empty( $video ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $data["video"] = $video;
+        }
+
+        if( !empty( $duration ) )
+        {
+            $data["duration"] = $duration;
+        }
+
+        if( !empty( $caption ) )
+        {
+            $data["caption"] = $caption;
+        }
+
+        if( !empty( $reply_to_message_id ) )
+        {
+            $data["reply_to_message_id"] = $reply_to_message_id;
+        }
+
+        if( !empty( $reply_markup ) )
+        {
+            $data["reply_markup"] = $reply_markup;
+        }
+
+        return new Message( $this->call( 'sendVideo' , $data ) );
+    }
+
     public function call( $method , $data = NULL )
     {
         $options = array(
