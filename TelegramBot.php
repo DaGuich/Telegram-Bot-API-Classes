@@ -679,6 +679,48 @@ class Telegram
         }
     }
 
+    /**
+     * Use this method to receive incoming updates using long polling. An Array
+     * 
+     * @param int offset
+     * @param int limit Value between 1 and 100
+     * @param int timeout
+     *
+     * @return Array of Updates
+     */
+    public function getUpdates(
+        $offset = NULL ,
+        $limit = NULL ,
+        $timeout = NULL
+    )
+    {
+        $data = array();
+        if( !empty( $offset ) )
+        {
+            $data["offset"] = $offset;
+        }
+
+        if( !empty( $limit ) )
+        {
+            $data["limit"] = $limit;
+        }
+
+        if( !empty( $timeout ) )
+        {
+            $data["timeout"] = $timeout;
+        }
+
+        $responses = $this->call( 'getUpdates' , $data );
+
+        $return = array();
+        foreach( $responses as $response )
+        {
+            $return[] = new Update( $response );
+        }
+
+        return $return;
+    }
+
     public function call( $method , $data = NULL )
     {
         $options = array(
