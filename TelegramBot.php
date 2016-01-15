@@ -417,7 +417,7 @@ class Telegram
             $data["reply_markup"] = $reply_markup;
         }
 
-        return new Message( $this->call( 'sendSticker' , $data );
+        return new Message( $this->call( 'sendSticker' , $data ) );
     }
 
     /**
