@@ -371,6 +371,55 @@ class Telegram
         return new Message( $this->call( 'sendDocument' , $data ) );
     }
 
+    /**
+     * Use this method to send .webp stickers.
+     *
+     * @param mixed chat_id
+     * @param mixed Sticker
+     * @param int reply_to_message_id
+     * @param mixed reply_markup 
+     *
+     * @return Message The sent message
+     */
+    public function sendSticker(
+        $chat_id ,
+        $sticker ,
+        $reply_to_message_id = NULL ,
+        $reply_markup = NULL
+    )
+    {
+        $data = array();
+        if( empty( $chat_id ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $data["chat_id"] = $chat_id;
+        }
+
+        if( empty( $sticker ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $data["sticker"] = $sticker;
+        }
+
+        if( !empty( $reply_to_message_id ) )
+        {
+            $data["reply_to_message_id"] = $reply_to_message_id;
+        }
+
+        if( !empty( $reply_markup ) )
+        {
+            $data["reply_markup"] = $reply_markup;
+        }
+
+        return new Message( $this->call( 'sendSticker' , $data );
+    }
+
     public function call( $method , $data = NULL )
     {
         $options = array(
