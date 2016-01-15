@@ -604,6 +604,58 @@ class Telegram
         return new Message( $this->call( 'sendLocation' , $data ) );
     }
 
+    /**
+     * Use this method when you need to tell the user that something is
+     * happening on the bot's side. The status is set for 5seconds or less
+     * (when a message arrives from your bot, Telegram clients cler its typing
+     * status).
+     *
+     * @param mixed chat_id
+     * @param String action
+     *
+     * @return bool
+     */
+    public function sendChatAction(
+        $chat_id ,
+        $action 
+    )
+    {
+        $data = array();
+        if( empty( $chat_id ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $data["chat_id"] = $chat_id;
+        }
+
+        if( empty( $action ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            switch( $action )
+            {
+            case 'typing':
+            case 'upload_photo':
+            case 'record_video':
+            case 'upload_video':
+            case 'record_audio':
+            case 'upload_audio':
+            case 'upload_document':
+            case 'find_location':
+                $data["action"] = $action;
+                break;
+            default:
+                return false;
+            }
+        }
+
+        return $this->call( 'sendChatAction' , $data );
+    }
+
     public function call( $method , $data = NULL )
     {
         $options = array(
