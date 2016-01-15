@@ -544,6 +544,66 @@ class Telegram
         return new Message( $this->call( 'sendVoice' , $data ) );
     }
 
+    /**
+     * Use this function to point on the map
+     *
+     * @param mixed chat_id
+     * @param float latitude
+     * @param float longitude
+     * @param int reply_to_message_id
+     * @param mixed reply_markup
+     *
+     * @return Message The sent message
+     */
+    public function sendLocation(
+        $chat_id ,
+        $latitude ,
+        $longitude ,
+        $reply_to_message_id = NULL ,
+        $reply_markup = NULL
+    )
+    {
+        $data = array();
+        if( empty( $chat_id ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $data["chat_id"] = $chat_id;
+        }
+
+        if( empty( $latitude ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $data["latitude"] = $latitude;
+        }
+
+        if( empty( $longitude ) )
+        {
+            throw new Exception( NON_OPT_PARAM );
+        }
+        else
+        {
+            $data["longitude"] = $longitude;
+        }
+
+        if( !empty( $reply_to_message_id ) )
+        {
+            $data["reply_to_message_id"] = $reply_to_message_id;
+        }
+
+        if( !empty( $reply_markup ) )
+        {
+            $data["reply_markup"] = $reply_markup;
+        }
+
+        return new Message( $this->call( 'sendLocation' , $data ) );
+    }
+
     public function call( $method , $data = NULL )
     {
         $options = array(
